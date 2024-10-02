@@ -17,7 +17,8 @@ LISTA *init_lista() {
 void inserir(LISTA *lista, int dado) {
 
     while(lista->prox != NULL){
-        return inserir(lista->prox, dado);
+        inserir(lista->prox, dado);
+        return;
     }
 
     LISTA *nova = (LISTA *) malloc(sizeof(LISTA));
