@@ -53,7 +53,7 @@ void libera(void *ponteiro) {
             return;
         }
     }
-    printf("ERRO no libera %d\n", qtd);
+    printf("ERRO no libera %d - %p\n", qtd, ponteiro);
     return;
 }
 
@@ -79,12 +79,19 @@ void inserir(LISTA *lista, int dado) {
     return;
 }
 
-void remover(LISTA *lista, int dado) {
+void remover(LISTA *lista, int dado, int *po) {
 
     LISTA *lista_aux = lista;
 
+    *po = 6;
+
+    printf("AAAAAAAAAAAA-> %p\n", lista);
+    printf("BBBBBBBBBBBB-> %p\n", lista_aux);
+
     if(lista_aux->dado == dado) { //TODO: arrumar o primeiro elemento.
-        lista = lista->prox;
+        lista = lista_aux->prox;
+        printf("AAAAAAAAAAAA-> %p\n", lista);
+        printf("BBBBBBBBBBBB-> %p\n", lista_aux);
         libera(lista_aux);
         return;
     }
@@ -162,7 +169,14 @@ int main() {
 
     printf("%d\n", qtd);
 
-    remover(lista, 30);
+    int oi = 5;
+    int *po = &oi;
+
+    printf("CCCCCCCCCCCC-> %p\n", lista);
+    remover(lista, 123, po);
+    printf("DDDDDDDDDDDD-> %p\n", lista);
+
+    printf("OIIIIII %d\n", *po);
 
     imprimir(lista);
 
