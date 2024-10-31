@@ -79,19 +79,12 @@ void inserir(LISTA *lista, int dado) {
     return;
 }
 
-void remover(LISTA *lista, int dado, int *po) {
+void remover(LISTA **lista, int dado) {
 
-    LISTA *lista_aux = lista;
-
-    *po = 6;
-
-    printf("AAAAAAAAAAAA-> %p\n", lista);
-    printf("BBBBBBBBBBBB-> %p\n", lista_aux);
+    LISTA *lista_aux = *lista;
 
     if(lista_aux->dado == dado) { //TODO: arrumar o primeiro elemento.
-        lista = lista_aux->prox;
-        printf("AAAAAAAAAAAA-> %p\n", lista);
-        printf("BBBBBBBBBBBB-> %p\n", lista_aux);
+        *lista = lista_aux->prox;
         libera(lista_aux);
         return;
     }
@@ -169,14 +162,7 @@ int main() {
 
     printf("%d\n", qtd);
 
-    int oi = 5;
-    int *po = &oi;
-
-    printf("CCCCCCCCCCCC-> %p\n", lista);
-    remover(lista, 123, po);
-    printf("DDDDDDDDDDDD-> %p\n", lista);
-
-    printf("OIIIIII %d\n", *po);
+    remover(&lista, 123);
 
     imprimir(lista);
 
