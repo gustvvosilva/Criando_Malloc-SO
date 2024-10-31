@@ -2,12 +2,15 @@
 #include <stdlib.h>
 
 #define MEM_SIZE 8192
+#define MEM_OFFSET 1024
+
 // #define ESP_END 512
 
-__uint8_t memoria[7164];
+__uint8_t memoria[MEM_SIZE];
 __uint64_t ponteiros[64];
 __uint32_t comecos[64];
 __uint32_t terminos[64];
+
 __uint32_t qtd = 0;
 
 typedef struct lista {
@@ -15,11 +18,29 @@ typedef struct lista {
     struct lista *prox;
 } LISTA;
 
+void testa(__uint32_t *teste) {
+
+    for(int i = 0; i < 64; i++) {
+        teste[i] = i;
+    }
+
+    return;
+}
+
 void *aloca(int tamanho) {
 
     void *ponteiro;
 
-    if(qtd == 0) {
+    __uint32_t teste1[64], teste2[64];
+    __uint64_t teste3[64];
+
+    testa(teste1);
+
+    // for(int i = 0; i < 64; i++) {
+    //     printf("EITA %d\n", teste1[i]);
+    // }
+
+    if(terminos[0] == 0) {
         comecos[0] = 0;
         terminos[0] = tamanho - 1;
         ponteiros[0] = (__uint64_t) &memoria[comecos[0]];
@@ -83,7 +104,7 @@ void remover(LISTA **lista, int dado) {
 
     LISTA *lista_aux = *lista;
 
-    if(lista_aux->dado == dado) { //TODO: arrumar o primeiro elemento.
+    if(lista_aux->dado == dado) {
         *lista = lista_aux->prox;
         libera(lista_aux);
         return;
@@ -162,7 +183,7 @@ int main() {
 
     printf("%d\n", qtd);
 
-    remover(&lista, 123);
+    remover(&lista, 30);
 
     imprimir(lista);
 
