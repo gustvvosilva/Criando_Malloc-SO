@@ -1,5 +1,5 @@
 all:
-	gcc main.c -o main
+	gcc main.c lista.c memoria.c -o main
 
 run: all
 	./main
