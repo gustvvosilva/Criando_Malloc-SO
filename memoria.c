@@ -9,7 +9,7 @@ void *aloca(int tamanho) {
 
     __uint32_t inic[64], term[64];
     __uint64_t pont[64];
-    obtem_memoria(inic, term, pont);
+    ler_memoria(inic, term, pont);
 
     if(term[0] == 0) {
         inic[0] = 0;
@@ -30,11 +30,7 @@ void *aloca(int tamanho) {
         }
     }
 
-    devolve_memoria(inic, term, pont);
-    // for(int i = 0; i < 64; i++) {
-    //     printf("%d: um %d e do %d -> %ld\n", i, inic[i], term[i], pont[i]);
-    // }
-
+    gravar_memoria(inic, term, pont);
     return ponteiro;
 }
 
@@ -42,34 +38,26 @@ void libera(void *ponteiro) {
 
     __uint32_t inic[64], term[64];
     __uint64_t pont[64];
-    obtem_memoria(inic, term, pont);
+    ler_memoria(inic, term, pont);
 
     for(int i = 0; i < 64; i++) {
         if(pont[i] == (__uint64_t) ponteiro){
-
             inic[i] = 0;
             term[i] = 0;
             pont[i] = 0;
             qtd--;
-
-            devolve_memoria(inic, term, pont);
-            // for(int i = 0; i < 64; i++) {
-            //     printf("L %d: um %d e do %d -> %ld\n", i, inic[i], term[i], pont[i]);
-            // }
-
+            gravar_memoria(inic, term, pont);
             return;
         }
     }
     // printf("ERRO no libera %p\n", ponteiro);
     printf("ERRO no libera %d - %p\n", qtd, ponteiro);
-
     return;
 }
 
-void obtem_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont) {
+void ler_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont) {
 
     int j;
-
     for(int i = 0; i < 64; i++) {
 
         j = i * 4;
@@ -83,16 +71,13 @@ void obtem_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont) {
                         (((__uint64_t) memoria[514 + j]) << 16) | (((__uint64_t) memoria[515 + j]) << 24) | 
                         (((__uint64_t) memoria[516 + j]) << 32) | (((__uint64_t) memoria[517 + j]) << 40) | 
                         (((__uint64_t) memoria[518 + j]) << 48) | (((__uint64_t) memoria[519 + j]) << 56));
-    
     }
-
     return;
 }
 
-void devolve_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont) {
+void gravar_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont) {
 
     int j;
-
     for(int i = 0; i < 64; i++) {
 
         j = i * 4;
@@ -116,7 +101,6 @@ void devolve_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont) {
         memoria[518 + j] = ((__uint64_t) pont[i] >> 48) & 0xff;
         memoria[519 + j] = ((__uint64_t) pont[i] >> 56) & 0xff;
     }
-
     return;
 }
 
@@ -124,15 +108,13 @@ void imprime_memoria() {
 
     __uint32_t inic[64], term[64];
     __uint64_t pont[64];
-    obtem_memoria(inic, term, pont);
+    ler_memoria(inic, term, pont);
 
     printf("qtd: %d\n", qtd);
-
     for(int i = 0; i < 64; i++) {
         if(inic[i] || term[i] || pont[i] != 0) {
             printf("%d: ini %d e ter %d -> %ld\n", i, inic[i], term[i], pont[i]);
         }
     }
-
     return;
 }

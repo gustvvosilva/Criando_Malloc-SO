@@ -2,15 +2,19 @@
 
 LISTA *init_lista() {
     LISTA *nova = (LISTA *) aloca(sizeof(LISTA));
-    nova->dado = 123;
+    nova->dado = 0;
     nova->prox = NULL;
-
     return nova;
 }
 
 void inserir(LISTA *lista, int dado) {
 
-    if(lista->prox != NULL){
+    if(lista->prox == NULL && lista->dado == 0) {  // Primeiro nó
+        lista->dado = dado;
+        return;
+    }
+
+    if(lista->prox != NULL) {
         inserir(lista->prox, dado);
         return;
     }
@@ -51,6 +55,7 @@ void imprimir(LISTA *lista) {
 
     LISTA *lista_aux = lista;
 
+    printf("Lista: ");
     while (lista_aux != NULL) {
         printf("%d ", lista_aux->dado);
         lista_aux = lista_aux->prox;

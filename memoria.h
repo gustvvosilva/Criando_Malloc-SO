@@ -9,8 +9,8 @@
 
 void *aloca(int tamanho);
 void libera(void *ponteiro);
-void obtem_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont);
-void devolve_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont);
+void ler_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont);
+void gravar_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont);
 void imprime_memoria();
 
 // __uint64_t ponteiros[64];

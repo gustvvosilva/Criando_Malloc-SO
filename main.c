@@ -9,21 +9,18 @@ int main() {
     inserir(lista, 10);
     inserir(lista, 20);
     inserir(lista, 30);
-    inserir(lista, 45);
-    inserir(lista, 87);
+    inserir(lista, 40);
+    inserir(lista, 50);
 
     imprimir(lista);
-
     imprimir_memoria();
 
     remover(&lista, 30);
 
     imprimir(lista);
-
     imprimir_memoria();
 
     excluir(lista);
-
     imprimir_memoria();
 
     return 0;
