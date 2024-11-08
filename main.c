@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lista.h"
+#include "memoria.h"
 
 int main() {
 
@@ -15,8 +16,18 @@ int main() {
     imprimir(lista);
     imprimir_memoria();
 
+    int *teste = (int *) aloca(sizeof(int));
+    *teste = 7;
+    imprimir_memoria();
+
     remover(&lista, 30);
 
+    imprimir(lista);
+    imprimir_memoria();
+
+    inserir(lista, 60);
+    inserir(lista, 70);
+    inserir(lista, 80);
     imprimir(lista);
     imprimir_memoria();
 

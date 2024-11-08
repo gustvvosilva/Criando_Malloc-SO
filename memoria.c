@@ -11,7 +11,7 @@ void *aloca(int tamanho) {
     __uint64_t pont[64];
     ler_memoria(inic, term, pont);
 
-    if(term[0] == 0) {
+    if(pont[0] == 0 && (inic[1] >= tamanho || pont[1] == 0)) {
         inic[0] = 0;
         term[0] = tamanho - 1;
         pont[0] = (__uint64_t) &memoria[inic[0] + MEM_OFFSET];
@@ -19,7 +19,7 @@ void *aloca(int tamanho) {
         qtd++;
     } else {
         for(int i = 1; i < 64; i++) {
-            if(term[i] == 0) {
+            if(pont[i] == 0 && ((inic[i + 1] - term[i - 1]) >= tamanho || pont[i + 1] == 0)) {
                 inic[i] = term[i - 1] + 1;
                 term[i] = inic[i] + tamanho - 1;
                 pont[i] = (__uint64_t) &memoria[inic[i] + MEM_OFFSET];
