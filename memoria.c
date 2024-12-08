@@ -1,22 +1,24 @@
 #include "memoria.h"
 
+// Cria efetivamente a memória.
 __uint8_t memoria[MEM_SIZE];
-__uint32_t qtd = 0;
 
+// Imita o funcionamento do malloc().
 void *aloca(int tamanho) {
 
     void *ponteiro;
 
+    // Resgata na memória todas as informações necessárias para operar sobre ela.
     __uint32_t inic[64], term[64];
     __uint64_t pont[64];
     ler_memoria(inic, term, pont);
 
-    if(pont[0] == 0 && (inic[1] >= tamanho || pont[1] == 0)) {
+    // Se for o primeiro item na memória.
+    if(pont[0] == 0 && (inic[1] >= tamanho || pont[1] == 0)) {  
         inic[0] = 0;
         term[0] = tamanho - 1;
         pont[0] = (__uint64_t) &memoria[inic[0] + MEM_OFFSET];
         ponteiro = (void *) pont[0];
-        qtd++;
     } else {
         for(int i = 1; i < 64; i++) {
             if(pont[i] == 0 && ((inic[i + 1] - term[i - 1]) >= tamanho || pont[i + 1] == 0)) {
@@ -24,16 +26,17 @@ void *aloca(int tamanho) {
                 term[i] = inic[i] + tamanho - 1;
                 pont[i] = (__uint64_t) &memoria[inic[i] + MEM_OFFSET];
                 ponteiro = (void *) pont[i];
-                qtd++;
                 break;
             }
         }
     }
 
+    // Grava na memória os dados recebidos.
     gravar_memoria(inic, term, pont);
     return ponteiro;
 }
 
+// Imita o free().
 void libera(void *ponteiro) {
 
     __uint32_t inic[64], term[64];
@@ -45,16 +48,17 @@ void libera(void *ponteiro) {
             inic[i] = 0;
             term[i] = 0;
             pont[i] = 0;
-            qtd--;
             gravar_memoria(inic, term, pont);
             return;
         }
     }
-    // printf("ERRO no libera %p\n", ponteiro);
-    printf("ERRO no libera %d - %p\n", qtd, ponteiro);
+    printf("ERRO! Ponteiro %p nao encontrado.\n", ponteiro);
     return;
 }
 
+// Aqui, usei manipulação de bits (Bitwise) para obter os dados que estão gravados na memória byte a byte
+// e estou transformando eles para uma estrutura de inteiros não sinalizados a fim de
+// facilitar a manipulação desses dados no código.
 void ler_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont) {
 
     int j;
@@ -75,6 +79,8 @@ void ler_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont) {
     return;
 }
 
+// Após manipular esses dados, faço o caminho contrário do ler_memoria(), ou seja,
+// transformo os dados de inteiros em bytes.
 void gravar_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont) {
 
     int j;
@@ -104,17 +110,22 @@ void gravar_memoria(__uint32_t *inic, __uint32_t *term, __uint64_t *pont) {
     return;
 }
 
+// Imprime a memória na tela para facilitar a compreensão do seu comportamento.
 void imprime_memoria() {
 
     __uint32_t inic[64], term[64];
     __uint64_t pont[64];
     ler_memoria(inic, term, pont);
 
-    printf("qtd: %d\n", qtd);
+    int qtd = 0;
+
+    printf("\nMEMORIA: \n");
     for(int i = 0; i < 64; i++) {
         if(inic[i] || term[i] || pont[i] != 0) {
-            printf("%d: ini %d e ter %d -> %ld\n", i, inic[i], term[i], pont[i]);
+            printf("item %d: inicio %d e termino %d -> ponteiro %ld\n", i, inic[i], term[i], pont[i]);
+            qtd++;
         }
     }
+    printf("Encontrou %d itens na memoria.\n\n", qtd);
     return;
 }

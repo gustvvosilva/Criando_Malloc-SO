@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "memoria.h"
 
+// Lista encadeada simples.
 typedef struct lista {
     int dado;
     struct lista *prox;

@@ -9,7 +9,8 @@ LISTA *init_lista() {
 
 void inserir(LISTA *lista, int dado) {
 
-    if(lista->prox == NULL && lista->dado == 0) {  // Primeiro nó
+    // Primeiro nó.
+    if(lista->prox == NULL && lista->dado == 0) {
         lista->dado = dado;
         return;
     }
@@ -30,6 +31,7 @@ void remover(LISTA **lista, int dado) {
 
     LISTA *lista_aux = *lista;
 
+    // Primeiro item da lista.
     if(lista_aux->dado == dado) {
         *lista = lista_aux->prox;
         libera(lista_aux);
@@ -75,6 +77,7 @@ void excluir(LISTA *lista) {
         libera(lista_apagar);
     }
 
+    printf("Lista apagada com sucesso.\n");
     return;
 }
 
